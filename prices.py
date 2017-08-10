@@ -53,7 +53,7 @@ def main():
 
 def get_data(timestamp):
     d = {}
-    d['Date'] = datetime.date.fromtimestamp(timestamp).strftime('%m/%d/%Y')
+    d['Date'] = timestamp_to_str(timestamp)
     for curr, a in currency.pairs.items():
         size = 6
         #cryptocompare can only have 6 items in the request, bloody inconvinent

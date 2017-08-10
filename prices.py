@@ -3,7 +3,7 @@ import requests, json, time, datetime, csv
 
 
 def timestamp_to_str(ts):
-    return datetime.date.fromtimestamp(ts).strftime('%m/%d/%Y')
+    return datetime.date.fromtimestamp(ts).strftime('%Y.%m.%d')
 
 
 def main():

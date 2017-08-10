@@ -8,28 +8,31 @@ def timestamp_to_str(ts):
 
 def main():
 
-    start = datetime.date.today() - datetime.timedelta(2)
+    start = datetime.date.today() - datetime.timedelta(3)
     end = datetime.date.today()
 
     days = int((end - start).days)
 
     f = []
     #read the file so that you don't have to redownload
-    with open('market_data.csv', 'r') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            f.append(row)
+    try:
+        with open('market_data.csv', 'r') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                f.append(row)
+    except:
+        pass #should only fail if
 
 
 
     for i in range(days):
 
         ts =  int(time.mktime((start + datetime.timedelta(days=i)).timetuple()))
-        print("Fetching day: " + )
+        print("Fetching day: " + timestamp_to_str(ts))
         #check to see if this date has allready been don, this is a dirty solution to loop theough the ordered array but it shouldn't take up too much time
         date_str =  timestamp_to_str(ts)
         for row in f:
-            if row['date'] == date_str:
+            if row['Date'] == date_str:
                 break
         else:
             f.append(get_data(ts))
@@ -50,15 +53,16 @@ def main():
 
 def get_data(timestamp):
     d = {}
-    d['date'] = datetime.date.fromtimestamp(timestamp).strftime('%m/%d/%Y')
+    d['Date'] = datetime.date.fromtimestamp(timestamp).strftime('%m/%d/%Y')
     for curr, a in currency.pairs.items():
-        #cryptocompare can only have 5 items in the request, bloody inconvinent
-        for i in range(int(len(a) / 5) + 1):
+        size = 6
+        #cryptocompare can only have 6 items in the request, bloody inconvinent
+        for i in range(int(len(a) / size) + 1):
             keys = []
-            if (i + 1) * 5 >= len(a):
-                keys = a[i*5:]
+            if (i + 1) * size >= len(a):
+                keys = a[i*size:]
             else:
-                keys = a[i * 5 : (i + 1) * 5]
+                keys = a[i * size : (i + 1) * size]
 
             r = ''
 

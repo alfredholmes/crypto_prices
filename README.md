@@ -1,5 +1,5 @@
 # crypto_prices
-Script that pulls historical daly data from cryptocompare and generates csv
+Script that pulls historical daily data from cryptocompare and generates csv
 
 to run you'll need the requests python libary
 ```

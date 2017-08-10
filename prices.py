@@ -73,8 +73,10 @@ def get_data(timestamp):
 
             data = json.loads(requests.get('https://min-api.cryptocompare.com/data/pricehistorical?fsym=' + curr + '&tsyms=' + comma_key_set + '&ts=' + str(timestamp)).text)[curr]
             for key, price in data.items():
-                d[curr + '_' + key] = price**-1
-
+                if price != 0:
+                    d[curr + '_' + key] = price**-1
+                else:
+                    print('Error, 0 returned from cryptocompare with pair: ' + curr + "_" + key + ', this means that this coin is not tracked')
     return d
 
 if __name__ == '__main__':

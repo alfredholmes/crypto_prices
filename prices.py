@@ -41,7 +41,10 @@ def main():
         return
 
     with open('market_data.csv', 'w') as csvfile:
-        fields = [k for k in f[0]]
+        fields = ['Date']
+        for key in f[0]:
+            if key != 'Date':
+                fields.append(key)
         writer = csv.DictWriter(csvfile, fields)
 
         writer.writeheader()
@@ -71,12 +74,12 @@ def get_data(timestamp):
 
             comma_key_set = r[:-1]
 
-            data = json.loads(requests.get('https://min-api.cryptocompare.com/data/pricehistorical?fsym=' + curr + '&tsyms=' + comma_key_set + '&ts=' + str(timestamp)).text)[curr]
+            data = json.loads(requests.get('https://min-api.cryptocompare.com/data/pricehistorical?fsym=' + curr + '&tsyms=' + comma_key_set + '&ts=' + str(timestamp) + '&markets=Polinex').text)[curr]
             for key, price in data.items():
                 if price != 0:
                     d[curr + '_' + key] = price**-1
                 else:
-                    print('Error, 0 returned from cryptocompare with pair: ' + curr + "_" + key + ', this means that this coin is not tracked')
+                    print('Warning, 0 returned from cryptocompare with pair: ' + curr + "_" + key + ', this means that this coin is not tracked')
     return d
 
 if __name__ == '__main__':

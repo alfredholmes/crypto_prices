@@ -8,7 +8,7 @@ def timestamp_to_str(ts):
 
 def main():
 
-    start = datetime.date.today() - datetime.timedelta(3)
+    start = datetime.date.today() - datetime.timedelta(10)
     end = datetime.date.today()
 
     days = int((end - start).days)
@@ -74,7 +74,7 @@ def get_data(timestamp):
 
             comma_key_set = r[:-1]
 
-            data = json.loads(requests.get('https://min-api.cryptocompare.com/data/pricehistorical?fsym=' + curr + '&tsyms=' + comma_key_set + '&ts=' + str(timestamp) + '&markets=Polinex').text)[curr]
+            data = json.loads(requests.get('https://min-api.cryptocompare.com/data/pricehistorical?fsym=' + curr + '&tsyms=' + comma_key_set + '&ts=' + str(timestamp) + '&markets=poloniex').text)[curr]
             for key, price in data.items():
                 if price != 0:
                     d[curr + '_' + key] = price**-1
